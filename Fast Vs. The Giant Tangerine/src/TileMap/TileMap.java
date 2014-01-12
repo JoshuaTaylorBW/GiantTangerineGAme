@@ -5,10 +5,11 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -33,6 +34,7 @@ public class TileMap {
 	
 	// map
 	private int[][] map;
+	public String everything;
 	private int tileSize;
 	private String[] mapLines = new String[18];
 	private int numRows;
@@ -95,8 +97,6 @@ public class TileMap {
 	
 	public void loadMap(int parts){
 
-		numCols = 0;
-		numRows = 0;
 		int whichMap;
 		String tempLine = "";
 		try{
@@ -108,7 +108,7 @@ public class TileMap {
 				whichMap = r.nextInt(PIECES_AMOUNT) + 1;	
 				InputStream in = getClass().getResourceAsStream("/Pieces/text" + whichMap + ".txt");
 				br = new BufferedReader(new InputStreamReader(in));
-				numCols = numCols + Integer.parseInt(br.readLine()) + 60;
+				numCols = numCols + Integer.parseInt(br.readLine());
 				numRows = Integer.parseInt(br.readLine());
 				if(i == parts - 1){
 					bw.write(numCols + "\r\n");
@@ -149,7 +149,7 @@ public class TileMap {
 			
 			InputStream in = getClass().getResourceAsStream("/Pieces/beginning.txt");
 			br = new BufferedReader(new InputStreamReader(in));
-			numCols = numCols + Integer.parseInt(br.readLine());
+			numCols = Integer.parseInt(br.readLine());
 			numRows = Integer.parseInt(br.readLine());
 			
 			for(int i = 0; i < numRows; i++){
@@ -167,8 +167,7 @@ public class TileMap {
 }
 
 	public void makeEnd(){
-		numCols = 0;
-		numRows = 0;
+		
 		String tempLine = "";
 		try{
 			File newMap = new File("some.txt");
@@ -177,7 +176,7 @@ public class TileMap {
 			
 			InputStream in = getClass().getResourceAsStream("/Pieces/end.txt");
 			br = new BufferedReader(new InputStreamReader(in));
-			numCols = numCols + Integer.parseInt(br.readLine());
+			numCols = numCols + Integer.parseInt(br.readLine()) - 30;
 			numRows = Integer.parseInt(br.readLine());
 			
 			for(int i = 0; i < numRows; i++){
@@ -201,17 +200,27 @@ public class TileMap {
 
 	
 public void makeMap(String s) {
-		
+	
+	
+	
 		try {
 			
-			InputStream in = getClass().getResourceAsStream("some.txt");
-			File newMap = new File("some.txt");
 			BufferedReader br = new BufferedReader(
-						new InputStreamReader(in)
-					);
+					new FileReader("some.txt")
+				);
+			
+		StringBuilder sb = new StringBuilder();
+			//
+			
 			
 			numCols = Integer.parseInt(br.readLine());
+			sb.append(numCols);
+			sb.append(System.lineSeparator());
+			
 			numRows = Integer.parseInt(br.readLine());
+			sb.append(numRows);
+			sb.append(System.lineSeparator());
+			
 			map = new int[numRows][numCols];
 			width = numCols * tileSize;
 			height = numRows * tileSize;
@@ -224,12 +233,17 @@ public void makeMap(String s) {
 			String delims = "\\s+";
 			for(int row = 0; row < numRows; row++) {
 				String line = br.readLine();
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				//line = br.readLine();
 				String[] tokens = line.split(delims);
 				for(int col = 0; col < numCols; col++) {
 					map[row][col] = Integer.parseInt(tokens[col]);
 				}
 			}
-			
+			everything = sb.toString();
+			System.out.println(everything);
+			br.close();
 		}
 		catch(Exception e) {
 			e.printStackTrace();
