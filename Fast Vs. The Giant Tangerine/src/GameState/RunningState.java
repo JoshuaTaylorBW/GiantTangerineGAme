@@ -23,7 +23,7 @@ public class RunningState extends GameState {
 		bg = new Background("/Backgrounds/Forest.png", 0.0);
 		
 		tileMap = new TileMap(32);
-		tileMap.loadTiles("/Tiles/OnlyOne.png");
+		tileMap.loadTiles("/Tiles/TiledOnlyOne.png");
 		tileMap.makeMap("/some.txt");
 	
 		tileMap.setPosition(mapX, 0);

@@ -106,7 +106,7 @@ public class TileMap {
 			for(int i = 1; i < parts + 1; i++){
 				Random r = new Random();
 				whichMap = r.nextInt(PIECES_AMOUNT) + 1;	
-				InputStream in = getClass().getResourceAsStream("/Pieces/text" + whichMap + ".txt");
+				InputStream in = getClass().getResourceAsStream("/Pieces/map" + whichMap + ".txt");
 				br = new BufferedReader(new InputStreamReader(in));
 				numCols = numCols + Integer.parseInt(br.readLine());
 				numRows = Integer.parseInt(br.readLine());
@@ -128,7 +128,7 @@ public class TileMap {
 				//System.out.println(mapLines[j]);
 				//writeMap();
 				}
-			
+			 
 				
 			}
 			bw.close();
@@ -176,7 +176,7 @@ public class TileMap {
 			
 			InputStream in = getClass().getResourceAsStream("/Pieces/end.txt");
 			br = new BufferedReader(new InputStreamReader(in));
-			numCols = numCols + Integer.parseInt(br.readLine()) - 30;
+			numCols = numCols + Integer.parseInt(br.readLine()) - 35;
 			numRows = Integer.parseInt(br.readLine());
 			
 			for(int i = 0; i < numRows; i++){
