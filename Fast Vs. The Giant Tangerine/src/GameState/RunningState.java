@@ -3,6 +3,7 @@ package GameState;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import Entity.Fast;
 import TileMap.Background;
 import TileMap.TileMap;
 
@@ -11,6 +12,9 @@ public class RunningState extends GameState {
 	private TileMap tileMap;
 	private Background bg;
 	private int mapX = 0, mapY = 0;
+	private Fast fast;
+	private int started = 0;
+	private int switched = 0;
 
 	public RunningState(GameStateManager gsm){
 		init();
@@ -18,46 +22,65 @@ public class RunningState extends GameState {
 
 	public void init(){
 		
+		
 		System.out.println("you're here");
 		
-		bg = new Background("/Backgrounds/Forest.png", 0.0);
+		bg = new Background("/Backgrounds/Forest.png", -.8);
 		
 		tileMap = new TileMap(32);
 		tileMap.loadTiles("/Tiles/TiledOnlyOne.png");
 		tileMap.makeMap("/some.txt");
-	
+		
 		tileMap.setPosition(mapX, 0);
 		tileMap.setTween(1);
+		
+		fast = new Fast(tileMap, 5);
+		fast.setPosition(300, 464);
 		
 	}
 
 	
 	public void update() {
 		handleInput();
-		bg.update();
-		mapX -= 5;
-		tileMap.setPosition(
+		bg.update();	
+		fast.update();
+		
+		tileMap.setPosition( 
 				mapX,
 				0);
-		System.out.println(mapX);
-		System.out.println(tileMap.getx());
+		
+		if(started >= 1){
+			mapX -= 5;
+			fast.setRight(true);
+		}
+	//	System.out.println(fast.getdy());
+		System.out.println(fast.getCurrentAction());
 	}
 
 	
 	public void draw(Graphics2D g) {
 		bg.draw(g);
 		tileMap.draw(g);
+		fast.draw(g);
 		g.setColor(Color.yellow);
 		g.drawString("this is my argument", 100, 100);
+		
 	}
 
 
 	public void handleInput() {
-		if(Keys.isPressed(Keys.RIGHT)){
-			mapX += 5;
+		if(Keys.isPressed(Keys.ENTER)){
+			started++;
 		}
+		fast.setJumping(Keys.isPressed(Keys.UP));
 		
+	
+	//}
+	if(!Keys.isPressed(Keys.DOWN) && !Keys.isPressed(Keys.UP)){
+		switched = 0;
+		}
 	}
 }
+
 
 

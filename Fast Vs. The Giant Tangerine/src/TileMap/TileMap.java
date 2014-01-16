@@ -323,5 +323,14 @@ public void makeMap(String s) {
 		}
 		
 	}
+
+	public int getNumRows() {
+		// TODO Auto-generated method stub
+		return numRows;
+	}
+	public int getNumCols(){
+		return numCols;
+	}
+	
 	
 }
