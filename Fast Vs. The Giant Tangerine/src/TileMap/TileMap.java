@@ -215,11 +215,11 @@ public void makeMap(String s) {
 			
 			numCols = Integer.parseInt(br.readLine());
 			sb.append(numCols);
-			sb.append(System.lineSeparator());
+			sb.append("\n");
 			
 			numRows = Integer.parseInt(br.readLine());
 			sb.append(numRows);
-			sb.append(System.lineSeparator());
+			sb.append("\n");
 			
 			map = new int[numRows][numCols];
 			width = numCols * tileSize;
@@ -234,7 +234,7 @@ public void makeMap(String s) {
 			for(int row = 0; row < numRows; row++) {
 				String line = br.readLine();
 				sb.append(line);
-				sb.append(System.lineSeparator());
+				sb.append("\n	");
 				//line = br.readLine();
 				String[] tokens = line.split(delims);
 				for(int col = 0; col < numCols; col++) {
