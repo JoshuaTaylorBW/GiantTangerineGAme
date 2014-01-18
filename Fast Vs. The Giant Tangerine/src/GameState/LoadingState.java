@@ -22,7 +22,7 @@ public class LoadingState extends GameState {
 		
 		tileMap = new TileMap(32);
 		tileMap.makeBeginning();
-		tileMap.loadMap(5);
+		tileMap.loadMap(30);
 		tileMap.makeEnd();
 		//tileMap.loadTiles("/Tiles/OnlyOne.png");
 		//tileMap.makeMap("/Pieces/some.txt");

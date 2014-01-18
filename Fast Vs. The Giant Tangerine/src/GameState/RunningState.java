@@ -13,6 +13,7 @@ public class RunningState extends GameState {
 	private Background bg;
 	private int mapX = 0, mapY = 0;
 	private Fast fast;
+	private int MAP_SPEED = 10;
 	private int started = 0;
 	private int switched = 0;
 
@@ -34,7 +35,7 @@ public class RunningState extends GameState {
 		tileMap.setPosition(mapX, 0);
 		tileMap.setTween(1);
 		
-		fast = new Fast(tileMap, 5);
+		fast = new Fast(tileMap, MAP_SPEED);
 		fast.setPosition(300, 464);
 		
 	}
@@ -50,11 +51,12 @@ public class RunningState extends GameState {
 				0);
 		
 		if(started >= 1){
-			mapX -= 5;
+			mapX -= MAP_SPEED;
 			fast.setRight(true);
 		}
 	//	System.out.println(fast.getdy());
 		System.out.println(fast.getCurrentAction());
+		System.out.println(fast.getFlew());
 	}
 
 	
@@ -67,18 +69,26 @@ public class RunningState extends GameState {
 		
 	}
 
-
 	public void handleInput() {
 		if(Keys.isPressed(Keys.ENTER)){
 			started++;
 		}
-		fast.setJumping(Keys.isPressed(Keys.UP));
-		
-	
-	//}
-	if(!Keys.isPressed(Keys.DOWN) && !Keys.isPressed(Keys.UP)){
-		switched = 0;
+		if(Keys.isPressed(Keys.RIGHT)){
+			fast.startFlying();
 		}
+		if(Keys.isPressed(Keys.UP)){
+			fast.startJumping();
+		}
+		if(Keys.isPressed(Keys.DOWN)){
+			fast.startDowning();
+		}
+	
+		if(Keys.isPressed(Keys.LEFT)){
+			fast.startSliding();
+		}
+		//fast.setSliding(Keys.isPressed(Keys.LEFT));	
+	
+	//} if(!Keys.isPressed(Keys.DOWN) && !Keys.isPressed(Keys.UP)){ switched = 0; }
 	}
 }
 

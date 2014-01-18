@@ -104,7 +104,7 @@ public abstract class MapObject {
 	public void calculateCorners(double x, double y) {
 		int leftTile = (int)(x - cwidth / 2) / tileSize;
 		int rightTile = (int)(x + cwidth / 2 - 1) / tileSize;
-		int topTile = (int)(y - cheight / 2) / tileSize;
+		int topTile = (int)(y - cheight / 4 - 1) / tileSize;
 		int bottomTile = (int)(y + cheight / 2 - 1) / tileSize;
 		if(topTile < 0 || bottomTile >= tileMap.getNumRows() ||
 			leftTile < 0 || rightTile >= tileMap.getNumCols()) {
