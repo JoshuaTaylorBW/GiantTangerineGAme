@@ -16,6 +16,8 @@ public class Fast extends MapObject{
 
 	private boolean dead;
 	
+	private boolean running;
+	
 	private boolean flying;
 	private long flyingTimer;
 	private int alreadyFlew = 0;
@@ -114,6 +116,9 @@ public class Fast extends MapObject{
 	public int getCurrentAction(){
 		return currentAction;
 	}
+	public boolean isRunning(){
+		return running;
+	}
 	public void startFlying(){
       		if(alreadyFlew == 0){
 			alreadyFlew++;
@@ -208,6 +213,9 @@ public class Fast extends MapObject{
 		
 		if(goDown){
 			dy = 10;
+			flying = false;
+			sliding = false;
+			jumping = false;
 
 		}	
 if(falling) {
@@ -228,6 +236,24 @@ if(!jumping && !falling){
 }
 	}
 	
+	public void checkBananas(ArrayList<Banana> ba){
+		for(int i = 0; i < ba.size(); i++){
+
+			Banana b = ba.get(i);
+
+			if(flying){
+				if(
+					b.getx() > x &&
+					b.getx() < x + (cwidth / 2) &&
+					b.gety() > y - height / 2 &&
+					b.gety() < y + height / 2
+ 				){
+					b.hit(1);
+				}
+			}
+		}
+	}
+
 	public void update(){
 		getNextPosition();
 		checkTileMapCollision();
@@ -245,7 +271,7 @@ if(!jumping && !falling){
 		if(sliding){
 			long elapsed =
 				(System.nanoTime() - slidingTimer) / 1000000;
-		       if(elapsed > 2000){
+		       if(elapsed > 1000){
 			       sliding = false;
 		       }
 		}
@@ -308,13 +334,20 @@ if(!jumping && !falling){
 				cwidth = 35;
 			}
 		}
+		
+		if(currentAction == RUNNING){
+			running = true;
+		}else{
+			running = false;
+		}
+		
 		animation.update();
 	}
 	
 	public void draw(Graphics2D g){
 		//
 		//g.fill(getRectangle());
-		g.fillRect((int)(x + xmap), (int)(y + ymap), cwidth, (int)(cheight / 1.5));
+		///g.fillRect((int)(x + xmap), (int)(y + ymap), cwidth, (int)(cheight / 1.5));
 		setMapPosition();
 		super.draw(g);
       	}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="67" height="18" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Forest" tilewidth="32" tileheight="32">
+  <image source="../Fast Vs. The Giant Tangerine/Resources/Tiles/TiledOnlyOne.png" width="64" height="64"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="67" height="18">
+  <data encoding="base64" compression="zlib">
+   eJzt1cEKABAQhGG13v+ZXZQDStqV4f9qD07WHEZKAIDX5cCxeoc5jjrPd7ySm9q+gKqoro8064cTvXdbF+3msJKT2j9CFs1oL7Loz79lodj3UQpf8gMR
+  </data>
+ </layer>
+</map>
