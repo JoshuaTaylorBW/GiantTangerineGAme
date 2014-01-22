@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Random;
 
 import Entity.Banana;
+import Entity.Cherry;
 import Entity.Enemy;
 import Entity.Fast;
 import TileMap.Background;
@@ -13,17 +15,24 @@ import TileMap.TileMap;
 
 public class RunningState extends GameState {
 
+	//Enemy Spawning Stuff
+	private int SPACING_MINIMUM = 1200;
+	private int SPACING_MAXIMUM = 1600;
+	private int lastPosition = 0;
+	private int amountOfEnemies;
+
 	private TileMap tileMap;
 	private Background bg;
 	private int mapX = 0, mapY = 0;
 	private Fast fast;
 	public int score = 0;
-	private int MAP_SPEED = 8;
+	private int MAP_SPEED = 6;
 	private int started = 0;
 	private int switched = 0;
 
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Banana> bananas;
+	private ArrayList<Cherry> cherries;
 
 	public RunningState(GameStateManager gsm){
 		init();
@@ -46,35 +55,103 @@ public class RunningState extends GameState {
 		fast = new Fast(tileMap, MAP_SPEED);
 		fast.setPosition(300, 464);
 
-		populateEnemies(100);
-		
+		populateEnemies();
 	}
 
-	public void populateEnemies(int distance){
+	public void populateEnemies(){
 		enemies = new ArrayList<Enemy>();
 		bananas = new ArrayList<Banana>();
+		cherries = new ArrayList<Cherry>();
 
-		Banana b;
+		amountOfEnemies = (int)(tileMap.getWidth() / SPACING_MINIMUM); 
 
-		Point[] bananaPoints = new Point[]{
-			new Point(1500, 0)
-		};
-
-		for(int i = 0; i < bananaPoints.length; i++){
-			b = new Banana(tileMap);
-			b.setPosition(bananaPoints[i].x, bananaPoints[i].y);
-			enemies.add(b);	
-			bananas.add(b);
-		}
+		Random r = new Random();
+		for(int i = 0; i < amountOfEnemies; i++){
+		int whichEnemy = r.nextInt(2);
+			if(whichEnemy == 0){
+				makeBanana();
+			}else{
+				makeCherry();
+			}
+		}	
 	}
 	
+	public void makeBanana(){
+
+		int x = makeXPos();
+		lastPosition = x;
+		Banana b;
+		Point bananaPoint = new Point(x, makeBananaY());
+		b = new Banana(tileMap);
+		b.setPosition(bananaPoint.x, bananaPoint.y);
+		enemies.add(b);
+		bananas.add(b);
+
+	}
+
+	public void makeCherry(){
+
+		int x = makeXPos();
+		lastPosition = x;
+		Cherry c;
+		Point cherryPoint = new Point(x, makeCherryY()); 
+		c = new Cherry(tileMap);
+		c.setPosition(cherryPoint.x, cherryPoint.y);
+		enemies.add(c);
+		cherries.add(c);
+
+	}
+
+	public int makeXPos(){
+
+	Random r = new Random();
+	int possibilities = SPACING_MAXIMUM - SPACING_MINIMUM;
+	int answer = lastPosition + SPACING_MINIMUM + r.nextInt(possibilities);
+	
+	return answer;	
+
+	}
+
+	public int makeBananaY(){
+
+		int y = 0;
+		int decider = 0;
+		Random r = new Random();
+		decider = r.nextInt(3);
+
+		if(decider == 0){
+			y = 0;
+		}else if(decider == 1){
+			y = 267;
+		}else if(decider == 2){
+			y = 469;
+		}
+		return y;
+	}
+
+	public int makeCherryY(){
+
+		int y = 70;
+		int decider = 0;
+		Random r = new Random();
+		decider = r.nextInt(3);
+
+		if(decider == 0){
+			y = 70;
+		}else if(decider == 1){
+			y = 262;
+		}else if(decider == 2){
+			y = 454;
+		}
+		return y;
+	}
+
 	public void update() {
 		handleInput();
 		bg.update();	
 		fast.update();
 		fast.checkBananas(bananas);
 		
-		System.out.println(fast.isRunning());
 
 		for(int i = 0; i < enemies.size(); i++){
 			Enemy e = enemies.get(i);
@@ -94,11 +171,7 @@ public class RunningState extends GameState {
 			fast.setRight(true);
 			score += 1;
 		}
-	//	System.out.println(fast.getdy());
-		System.out.println(fast.getCurrentAction());
-		System.out.println(fast.getFlew());
 	}
-
 	
 	public void draw(Graphics2D g) {
 		bg.draw(g);

@@ -61,7 +61,7 @@ public class Fast extends MapObject{
 		fallSpeed = 0.1;
 		maxFallSpeed = 4.0;
 		jumpStart = -6.5;//-5.8
-		stopJumpSpeed = 0.2;
+		stopJumpSpeed = 0.3;
 		
 		facingRight = true;
 
@@ -249,6 +249,23 @@ if(!jumping && !falling){
 					b.gety() < y + height / 2
  				){
 					b.hit(1);
+				}
+			}
+		}
+	}
+	public void checkCherries(ArrayList<Cherry> ch){
+		for(int i = 0; i < ch.size(); i++){
+
+			Cherry c = ch.get(i);
+
+			if(sliding){
+				if(
+					c.getx() > x &&
+					c.getx() < x + (cwidth / 2) &&
+					c.gety() > y - height / 2 &&
+					c.gety() < y + height / 2
+ 				){
+					c.hit(1);
 				}
 			}
 		}
