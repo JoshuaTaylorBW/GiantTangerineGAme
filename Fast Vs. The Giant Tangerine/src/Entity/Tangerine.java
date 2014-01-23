@@ -10,6 +10,7 @@ import TileMap.TileMap;
 public class Tangerine extends Enemy{
 
 	private BufferedImage[] sprites;
+	private boolean go = false;
 
 	public Tangerine(TileMap tm, int speed){
 		super(tm);
@@ -42,11 +43,25 @@ public class Tangerine extends Enemy{
 		facingRight = true;
 	}
 
-	public void getNextPosition(){
+	public void setGo(boolean b){
+		go = b;
+	}
+	public boolean getGo(){
+		return go;
+	}	
 
+	public void getNextPosition(){
+		if(right) {
+			dx += moveSpeed;
+			if(dx > maxSpeed) {
+				dx = maxSpeed;
+			}
+		}
 	}
 
 	public void update(){
+		getNextPosition();
+		checkTileMapCollision();
 		setPosition(xtemp, ytemp);
 
 		animation.update();
