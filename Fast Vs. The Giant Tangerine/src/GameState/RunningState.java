@@ -16,8 +16,8 @@ import TileMap.TileMap;
 public class RunningState extends GameState {
 
 	//Enemy Spawning Stuff
-	private int SPACING_MINIMUM = 1200;
-	private int SPACING_MAXIMUM = 1600;
+	private int SPACING_MINIMUM = 400;//1200
+	private int SPACING_MAXIMUM = 800;//1600
 	private int lastPosition = 0;
 	private int amountOfEnemies;
 
@@ -175,11 +175,12 @@ public class RunningState extends GameState {
 	
 	public void draw(Graphics2D g) {
 		bg.draw(g);
-		tileMap.draw(g);
-		fast.draw(g);
 		for(int i = 0; i < enemies.size(); i++){
 			enemies.get(i).draw(g);
 		}
+		tileMap.draw(g);
+		fast.draw(g);
+		
 		
 		g.setColor(Color.yellow);
 		g.drawString("Score: " + score, 100, 100);
