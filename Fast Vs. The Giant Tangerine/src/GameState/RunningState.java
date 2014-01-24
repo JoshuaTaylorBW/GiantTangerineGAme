@@ -10,14 +10,20 @@ import Entity.Banana;
 import Entity.Cherry;
 import Entity.Enemy;
 import Entity.Fast;
+import Entity.Tangerine;
 import TileMap.Background;
 import TileMap.TileMap;
 
 public class RunningState extends GameState {
 
 	//Enemy Spawning Stuff
+<<<<<<< HEAD
 	private int SPACING_MINIMUM = 400;//1200
 	private int SPACING_MAXIMUM = 800;//1600
+=======
+	private int SPACING_MINIMUM = 500;
+	private int SPACING_MAXIMUM = 800	;
+>>>>>>> 1047bf7b48a2cf39f80f6f042f7ff82de7d4b220
 	private int lastPosition = 0;
 	private int amountOfEnemies;
 
@@ -29,6 +35,8 @@ public class RunningState extends GameState {
 	private int MAP_SPEED = 6;
 	private int started = 0;
 	private int switched = 0;
+
+	private Tangerine tangerine;
 
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Banana> bananas;
@@ -55,6 +63,8 @@ public class RunningState extends GameState {
 		fast = new Fast(tileMap, MAP_SPEED);
 		fast.setPosition(300, 464);
 
+		
+
 		populateEnemies();
 	}
 
@@ -62,6 +72,9 @@ public class RunningState extends GameState {
 		enemies = new ArrayList<Enemy>();
 		bananas = new ArrayList<Banana>();
 		cherries = new ArrayList<Cherry>();
+		
+		tangerine = new Tangerine(tileMap, MAP_SPEED);
+		tangerine.setPosition(59, 200);
 
 		amountOfEnemies = (int)(tileMap.getWidth() / SPACING_MINIMUM); 
 
@@ -152,7 +165,8 @@ public class RunningState extends GameState {
 		fast.update();
 		fast.checkBananas(bananas);
 		
-
+tangerine.update();
+		
 		for(int i = 0; i < enemies.size(); i++){
 			Enemy e = enemies.get(i);
 			e.update();
@@ -168,6 +182,7 @@ public class RunningState extends GameState {
 		
 		if(started >= 1){
 			mapX -= MAP_SPEED;
+			tangerine.setRight(true);
 			fast.setRight(true);
 			score += 1;
 		}
@@ -175,6 +190,12 @@ public class RunningState extends GameState {
 	
 	public void draw(Graphics2D g) {
 		bg.draw(g);
+<<<<<<< HEAD
+=======
+		tileMap.draw(g);
+		fast.draw(g);
+		tangerine.draw(g);
+>>>>>>> 1047bf7b48a2cf39f80f6f042f7ff82de7d4b220
 		for(int i = 0; i < enemies.size(); i++){
 			enemies.get(i).draw(g);
 		}
