@@ -18,7 +18,7 @@ import Main.GamePanel;
 
 public class TileMap {
 	
-	private int PIECES_AMOUNT = 7;
+	private int PIECES_AMOUNT = 8;
 	
 	// position
 	private double x;

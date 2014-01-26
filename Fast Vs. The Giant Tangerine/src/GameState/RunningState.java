@@ -20,6 +20,9 @@ public class RunningState extends GameState {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> dc55464617425d17aaba8891921d041971df5ae1
 =======
 >>>>>>> dc55464617425d17aaba8891921d041971df5ae1
 	private int SPACING_MINIMUM = 400;//1200
@@ -29,10 +32,13 @@ public class RunningState extends GameState {
 	private int SPACING_MAXIMUM = 800	;
 >>>>>>> 1047bf7b48a2cf39f80f6f042f7ff82de7d4b220
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	private int SPACING_MINIMUM = 1200;
 	private int SPACING_MAXIMUM = 1600;
 >>>>>>> parent of 1047bf7... added tangerine and changed name of sprite
+=======
+>>>>>>> dc55464617425d17aaba8891921d041971df5ae1
 =======
 >>>>>>> dc55464617425d17aaba8891921d041971df5ae1
 	private int lastPosition = 0;
@@ -207,10 +213,15 @@ tangerine.update();
 		fast.draw(g);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		tangerine.draw(g);
 >>>>>>> 1047bf7b48a2cf39f80f6f042f7ff82de7d4b220
 =======
 >>>>>>> parent of 1047bf7... added tangerine and changed name of sprite
+=======
+		tangerine.draw(g);
+>>>>>>> 1047bf7b48a2cf39f80f6f042f7ff82de7d4b220
+>>>>>>> dc55464617425d17aaba8891921d041971df5ae1
 =======
 		tangerine.draw(g);
 >>>>>>> 1047bf7b48a2cf39f80f6f042f7ff82de7d4b220
