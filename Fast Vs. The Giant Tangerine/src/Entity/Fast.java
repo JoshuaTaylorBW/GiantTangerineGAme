@@ -16,14 +16,29 @@ public class Fast extends MapObject{
 
 	private boolean dead;
 	
+	private boolean running;
+	
+	private boolean flying;
+	private long flyingTimer;
+	private int alreadyFlew = 0;
+
+	private boolean sliding;
+	private long slidingTimer;
+	private int alreadySlid = 0;
+
+	private long jumpingTimer;
 	private int jumped = 0;
+
+	private int downing = 0;
+	private boolean goDown;
+
 	private int whereJump = 0;
 
 	private ArrayList<BufferedImage[]> sprites;
 	private final int[] numFrames = {
 		1, 8, 3, 3, 1 
 	};
-
+	
 	public static final int IDLE = 0;
 	public static final int RUNNING = 1;	
 	public static final int FLYING = 2;	
@@ -46,7 +61,7 @@ public class Fast extends MapObject{
 		fallSpeed = 0.1;
 		maxFallSpeed = 4.0;
 		jumpStart = -6.5;//-5.8
-		stopJumpSpeed = 0.2;
+		stopJumpSpeed = 0.3;
 		
 		facingRight = true;
 
@@ -97,10 +112,43 @@ public class Fast extends MapObject{
 	public void setCurrentAction(int action){
 		currentAction = action;
 	}
+	public int getFlew(){return alreadyFlew;}
 	public int getCurrentAction(){
 		return currentAction;
 	}
-
+	public boolean isRunning(){
+		return running;
+	}
+	public void startFlying(){
+      		if(alreadyFlew == 0){
+			alreadyFlew++;
+			flying = true;
+			flyingTimer = System.nanoTime();
+		}
+	} 
+	public void startSliding(){
+      		if(alreadySlid == 0){
+			alreadySlid++;
+			sliding = true;
+			slidingTimer = System.nanoTime();
+		}
+	} 
+	public void startJumping(){
+      		if(jumped == 0){
+			jumped++;
+			jumping = true;
+			jumpingTimer = System.nanoTime();
+		}
+	} 
+	public void startDowning(){
+		if(jumping || falling || flying){
+      		if(downing == 0){
+			downing++;
+			goDown = true;
+      		}
+		}
+	} 
+	public void setSliding(boolean b){sliding = b;}
 	public void checkFallDead(){
 		if(y > tiley.getHeight() - 70){
 			dead = true;
@@ -116,6 +164,11 @@ public class Fast extends MapObject{
 		health = setMaxHealth(1);
 	}
 	
+	private int setMaxHealth(int i) {
+		 maxHealth = i;
+		 return maxHealth;
+	}
+
 	private void getNextPosition() {
 		
 		if(left) {
@@ -144,6 +197,11 @@ public class Fast extends MapObject{
 				}
 			}
 		}
+		//thisl
+		if(flying){
+			dy = 0;
+			dy -= fallSpeed; 
+		}
 		if(jumping && !falling) {
 			
 			dy = jumpStart;
@@ -153,15 +211,22 @@ public class Fast extends MapObject{
 			dy = 0;
 		}
 		
-		
+		if(goDown){
+			dy = 10;
+			flying = false;
+			sliding = false;
+			jumping = false;
+
+		}	
 if(falling) {
-			
+			if(!goDown){
 			dy += fallSpeed;
 			
 			if(dy > 0) jumping = false;
 			if(dy < 0 && !jumping) dy += stopJumpSpeed;
 			
 			if(dy > maxFallSpeed) dy = maxFallSpeed;
+			}
 }
 if(!jumping && !falling){
 	if(dy != 0){
@@ -171,11 +236,70 @@ if(!jumping && !falling){
 }
 	}
 	
+	public void checkBananas(ArrayList<Banana> ba){
+		for(int i = 0; i < ba.size(); i++){
+
+			Banana b = ba.get(i);
+
+			if(flying){
+				if(
+					b.getx() > x &&
+					b.getx() < x + (cwidth / 2) &&
+					b.gety() > y - height / 2 &&
+					b.gety() < y + height / 2
+ 				){
+					b.hit(1);
+				}
+			}
+		}
+	}
+	public void checkCherries(ArrayList<Cherry> ch){
+		for(int i = 0; i < ch.size(); i++){
+
+			Cherry c = ch.get(i);
+
+			if(sliding){
+				if(
+					c.getx() > x &&
+					c.getx() < x + (cwidth / 2) &&
+					c.gety() > y - height / 2 &&
+					c.gety() < y + height / 2
+ 				){
+					c.hit(1);
+				}
+			}
+		}
+	}
+
 	public void update(){
 		getNextPosition();
 		checkTileMapCollision();
 		checkFallDead();
 		setPosition(xtemp, ytemp);
+
+		if(flying){
+			long elapsed =
+				(System.nanoTime() - flyingTimer) / 1000000;
+		       if(elapsed > 1000){
+			       flying = false;
+		       }
+		}
+
+		if(sliding){
+			long elapsed =
+				(System.nanoTime() - slidingTimer) / 1000000;
+		       if(elapsed > 1000){
+			       sliding = false;
+		       }
+		}
+
+		if(jumping){
+			long elapsed =
+				(System.nanoTime() - jumpingTimer) / 1000000;
+		       if(elapsed > 2000){
+			       jumping = false;
+		       }
+		}
 
 		if(dy > 0 || dy < 0){
 			if(currentAction != JUMPING){
@@ -185,13 +309,38 @@ if(!jumping && !falling){
 				width = 46;
 				cwidth = 46;
 			}
-		}else if(right || left){
+		}else if((right || left) && !flying && !sliding){
 			if(currentAction != RUNNING){
 				currentAction = RUNNING;
+				if(!falling){
+				alreadyFlew = 0;
+				jumped = 0;
+				downing = 0;
+				goDown = false;
+				alreadySlid = 0;
+				}
 				animation.setFrames(sprites.get(RUNNING));
 				animation.setDelay(40);
 				width = 46;
 				cwidth = 46;
+			}
+		}else if(flying){
+			if(currentAction != FLYING){
+				currentAction = FLYING;
+				downing = 0;
+				goDown = false;
+			       	animation.setFrames(sprites.get(FLYING));
+				animation.setDelay(40);
+				width = 115;
+				cwidth = 115;
+			}
+		}else if(sliding){
+			if(currentAction != SLIDING){
+				currentAction = SLIDING;
+				animation.setFrames(sprites.get(SLIDING));
+				animation.setDelay(40);
+				width = 85;
+				cwidth = 85;
 			}
 		}else{
 			if(currentAction != IDLE){
@@ -202,25 +351,21 @@ if(!jumping && !falling){
 				cwidth = 35;
 			}
 		}
+		
+		if(currentAction == RUNNING){
+			running = true;
+		}else{
+			running = false;
+		}
+		
 		animation.update();
 	}
 	
 	public void draw(Graphics2D g){
 		//
 		//g.fill(getRectangle());
+		///g.fillRect((int)(x + xmap), (int)(y + ymap), cwidth, (int)(cheight / 1.5));
 		setMapPosition();
 		super.draw(g);
-		
-	}
-	
-	public int getMaxHealth() {
-		return maxHealth;
-	}
-
-	public int setMaxHealth(int maxHealth) {
-		this.maxHealth = maxHealth;
-		return maxHealth;
-	}
-
-	
+      	}
 }

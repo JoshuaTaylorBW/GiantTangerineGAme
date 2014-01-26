@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="35" height="18" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" width="45" height="18" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="OnlyOne" tilewidth="32" tileheight="32">
   <image source="../Fast Vs. The Giant Tangerine/Resources/Tiles/OnlyOne.png" width="64" height="64"/>
  </tileset>
- <layer name="Tile Layer 1" width="35" height="18">
+ <layer name="Tile Layer 1" width="45" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYBxAjAwG0h2jbhl6bhlMgJZ+ZiYR09otxMYFPd1CKL2MugU7YMYhjguQmhZJMZ/YMCQlzInBDAyYYTRQbiE3vYy6hXCap7VbaJUvSAUgswFxJQJp
+   eJzt00kKACAIBVDF+985WrSM/OIU+EFoYfVoYCLiwrKk0jvmMXt6u0TA6nCOAvZ2MWvndDS/1hqzv/nWiwT930ghBs1ZnTF6L9po9v7FbH3PY84zI/0Z5qj/HZVtWJGNAow=
   </data>
  </layer>
 </map>
