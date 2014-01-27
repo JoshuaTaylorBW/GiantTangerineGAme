@@ -21,6 +21,7 @@ public class Enemy extends MapObject{
 	public boolean isDead(){return dead;}
 	public int getDamage(){return damage;}
 	public int getScore(){return deathScore;}
+	public int getHealth(){return health;}
 
 public void kill(){dead = true;}
 	

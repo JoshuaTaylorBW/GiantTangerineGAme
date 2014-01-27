@@ -10,63 +10,39 @@ import Entity.Banana;
 import Entity.Cherry;
 import Entity.Enemy;
 import Entity.Fast;
-import Entity.Tangerine;
 import TileMap.Background;
 import TileMap.TileMap;
 
 public class RunningState extends GameState {
 
 	//Enemy Spawning Stuff
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> dc55464617425d17aaba8891921d041971df5ae1
-=======
->>>>>>> dc55464617425d17aaba8891921d041971df5ae1
-	private int SPACING_MINIMUM = 400;//1200
-	private int SPACING_MAXIMUM = 800;//1600
-=======
-	private int SPACING_MINIMUM = 500;
-	private int SPACING_MAXIMUM = 800	;
->>>>>>> 1047bf7b48a2cf39f80f6f042f7ff82de7d4b220
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+	
 	private int SPACING_MINIMUM = 1200;
 	private int SPACING_MAXIMUM = 1600;
->>>>>>> parent of 1047bf7... added tangerine and changed name of sprite
-=======
->>>>>>> dc55464617425d17aaba8891921d041971df5ae1
-=======
->>>>>>> dc55464617425d17aaba8891921d041971df5ae1
 	private int lastPosition = 0;
 	private int amountOfEnemies;
 
+	private int MAP_SPEED = 8;
 	private TileMap tileMap;
 	private Background bg;
 	private int mapX = 0, mapY = 0;
 	private Fast fast;
 	public int score = 0;
-	private int MAP_SPEED = 6;
+	
+	public boolean lose = false;
 	private int started = 0;
 	private int switched = 0;
-
-	private Tangerine tangerine;
 
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Banana> bananas;
 	private ArrayList<Cherry> cherries;
 
 	public RunningState(GameStateManager gsm){
+		this.gsm = gsm;
 		init();
 	}
 
 	public void init(){
-		
-		
-		System.out.println("you're here");
 		
 		bg = new Background("/Backgrounds/Forest.png", .8);
 		
@@ -80,8 +56,6 @@ public class RunningState extends GameState {
 		fast = new Fast(tileMap, MAP_SPEED);
 		fast.setPosition(300, 464);
 
-		
-
 		populateEnemies();
 	}
 
@@ -89,9 +63,6 @@ public class RunningState extends GameState {
 		enemies = new ArrayList<Enemy>();
 		bananas = new ArrayList<Banana>();
 		cherries = new ArrayList<Cherry>();
-		
-		tangerine = new Tangerine(tileMap, MAP_SPEED);
-		tangerine.setPosition(59, 200);
 
 		amountOfEnemies = (int)(tileMap.getWidth() / SPACING_MINIMUM); 
 
@@ -182,8 +153,7 @@ public class RunningState extends GameState {
 		fast.update();
 		fast.checkBananas(bananas);
 		
-tangerine.update();
-		
+
 		for(int i = 0; i < enemies.size(); i++){
 			Enemy e = enemies.get(i);
 			e.update();
@@ -193,13 +163,19 @@ tangerine.update();
 			}
 		}
 
+	if(fast.getXScreen() < -23 || fast.fellDead()){
+		lose = true;
+	}
+	if(lose){
+		gsm.setState(GameStateManager.LOADINGSTATE);
+	}
+		
 		tileMap.setPosition( 
 				mapX,
 				0);
 		
 		if(started >= 1){
 			mapX -= MAP_SPEED;
-			tangerine.setRight(true);
 			fast.setRight(true);
 			score += 1;
 		}
@@ -207,31 +183,11 @@ tangerine.update();
 	
 	public void draw(Graphics2D g) {
 		bg.draw(g);
-<<<<<<< HEAD
-=======
 		tileMap.draw(g);
 		fast.draw(g);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-		tangerine.draw(g);
->>>>>>> 1047bf7b48a2cf39f80f6f042f7ff82de7d4b220
-=======
->>>>>>> parent of 1047bf7... added tangerine and changed name of sprite
-=======
-		tangerine.draw(g);
->>>>>>> 1047bf7b48a2cf39f80f6f042f7ff82de7d4b220
->>>>>>> dc55464617425d17aaba8891921d041971df5ae1
-=======
-		tangerine.draw(g);
->>>>>>> 1047bf7b48a2cf39f80f6f042f7ff82de7d4b220
->>>>>>> dc55464617425d17aaba8891921d041971df5ae1
 		for(int i = 0; i < enemies.size(); i++){
 			enemies.get(i).draw(g);
 		}
-		tileMap.draw(g);
-		fast.draw(g);
-		
 		
 		g.setColor(Color.yellow);
 		g.drawString("Score: " + score, 100, 100);

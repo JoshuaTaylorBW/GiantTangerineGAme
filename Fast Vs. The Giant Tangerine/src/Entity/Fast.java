@@ -14,6 +14,8 @@ public class Fast extends MapObject{
 	private int maxHealth;
 	private TileMap tiley;
 
+	private boolean flinching; 
+	private long flinchTimer;
 	private boolean dead;
 	
 	private boolean running;
@@ -148,6 +150,12 @@ public class Fast extends MapObject{
       		}
 		}
 	} 
+	public void hit(){
+		if(flinching) return;
+		flinching = true;
+		flinchTimer = System.nanoTime();
+
+	}
 	public void setSliding(boolean b){sliding = b;}
 	public void checkFallDead(){
 		if(y > tiley.getHeight() - 70){
@@ -171,6 +179,10 @@ public class Fast extends MapObject{
 
 	private void getNextPosition() {
 		
+		if(flinching){
+			x -= 1.6;
+		}
+		
 		if(left) {
 			dx -= moveSpeed;
 			if(dx < -maxSpeed) {
@@ -178,9 +190,11 @@ public class Fast extends MapObject{
 			}
 		}
 		else if(right) {
+			
 			dx += moveSpeed;
 			if(dx > maxSpeed) {
 				dx = maxSpeed;
+			
 			}
 		}
 		else {
@@ -249,6 +263,11 @@ if(!jumping && !falling){
 					b.gety() < y + height / 2
  				){
 					b.hit(1);
+					}
+				}
+		if(intersects(b) && !flying){
+			if(b.getHealth() > 0){
+			hit();
 				}
 			}
 		}
@@ -266,16 +285,30 @@ if(!jumping && !falling){
 					c.gety() < y + height / 2
  				){
 					c.hit(1);
+					}
 				}
+			
+		if(intersects(c)){
+			hit();
 			}
 		}
 	}
+
+	
 
 	public void update(){
 		getNextPosition();
 		checkTileMapCollision();
 		checkFallDead();
 		setPosition(xtemp, ytemp);
+
+		if(flinching){
+			long elapsed = 
+				(System.nanoTime() - flinchTimer) / 1000000;
+			if(elapsed > 500){
+				flinching = false;
+			}
+		}
 
 		if(flying){
 			long elapsed =
@@ -362,10 +395,14 @@ if(!jumping && !falling){
 	}
 	
 	public void draw(Graphics2D g){
-		//
-		//g.fill(getRectangle());
-		///g.fillRect((int)(x + xmap), (int)(y + ymap), cwidth, (int)(cheight / 1.5));
 		setMapPosition();
+//		if(flinching) {
+//			long elapsed =
+//				(System.nanoTime() - flinchTimer) / 1000000;
+//			if(elapsed / 400 % 2 == 0) {
+//				return;
+//			}
+//		}
 		super.draw(g);
       	}
 }

@@ -188,6 +188,13 @@ public abstract class MapObject {
 	public int getHeight() { return height; }
 	public int getCWidth() { return cwidth; }
 	public int getCHeight() { return cheight; }
+	public double getYScreen(){
+		return y + ymap;
+	}
+	public double getXScreen(){
+		return x + xmap;
+	}
+	
 	public boolean isFacingRight() { return facingRight; }
 	
 	public void setPosition(double x, double y) {
