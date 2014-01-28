@@ -6,6 +6,8 @@ public class StateLoadingState extends GameState {
 	private TileMap tileMap;
 	private GameStateManager gsm;
 	
+	private int MAP_LENGTH = 6;
+
 	public StateLoadingState(GameStateManager gsm){
 		this.gsm = gsm;
 		init();
@@ -18,7 +20,7 @@ public class StateLoadingState extends GameState {
 		
 		tileMap = new TileMap(32);
 		tileMap.makeBeginning();
-		tileMap.loadMap(10);
+		tileMap.loadMap(lengthOfMap());
 		tileMap.makeEnd();
 		//tileMap.loadTiles("/Tiles/OnlyOne.png");
 		//tileMap.makeMap("/Pieces/some.txt");
@@ -44,7 +46,13 @@ public class StateLoadingState extends GameState {
 		
 	}
 	public int lengthOfMap(){
-		return 0;
+		int length = 0;
+		if(gsm.getCurrentLevel() == 1){
+			length = 8;
+		}else if(gsm.getCurrentLevel() >= 2){
+			length = 32;
+		}
+		return length;
 	}
 }
 

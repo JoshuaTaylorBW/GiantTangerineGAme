@@ -13,7 +13,7 @@ public class StateRunningState extends GameState {
 	private int lastPosition = 0;
 	private int amountOfEnemies;
 
-	private int MAP_SPEED = 10;
+	private int MAP_SPEED = 6;
 	private TileMap tileMap;
 	private TileBackground bg;
 	private int mapX = 0, mapY = 0;
@@ -35,10 +35,23 @@ public class StateRunningState extends GameState {
 		init();
 	}
 
+	public void setSpeed(){
+		if(gsm.getCurrentLevel() > 0 && gsm.getCurrentLevel() < 3){
+		MAP_SPEED = 6;
+		}else if(gsm.getCurrentLevel() > 2 && gsm.getCurrentLevel() < 5){
+		MAP_SPEED = 8;
+		}else{
+		MAP_SPEED = 10;
+		} 
+	}
+
 	public void init(){
 		
+		System.out.println("welcome to level " + gsm.getCurrentLevel());
+
 		bg = new TileBackground("/Backgrounds/Forest.png", .8);
 		
+		setSpeed();
 		tileMap = new TileMap(32);
 		tileMap.loadTiles("/Tiles/TiledOnlyOne.png");
 		tileMap.makeMap("/some.txt");
@@ -161,8 +174,8 @@ public class StateRunningState extends GameState {
 			lose = true;
 		}
 		if(lose){
-			gsm.setState(GameStateManager.LOADINGSTATE);
 			gsm.setCurrentLevel(1);
+			gsm.setState(GameStateManager.LOADINGSTATE);
 		}
 		
 		for(int i = 0; i < enemies.size(); i++){
