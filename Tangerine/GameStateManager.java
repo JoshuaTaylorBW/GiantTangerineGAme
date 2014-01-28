@@ -6,7 +6,7 @@ public class GameStateManager {
 	private GameState[] gameStates;
 	private int currentState;
 	
-	public int currentLevel = 41;
+	public int currentLevel = 1;
 	
 	public static final int NUMGAMESTATES = 20;
 	public static final int LEVEL1STATE = 0;
@@ -37,6 +37,8 @@ public class GameStateManager {
 	}
 	
 	public int getCurrentLevel(){return currentLevel;}
+	public void nextLevel(){currentLevel++;}
+	public void setCurrentLevel(int i){currentLevel = i;}
 	
 	public void setState(int state){
 		unloadState(currentState);

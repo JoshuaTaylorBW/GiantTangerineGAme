@@ -18,7 +18,7 @@ public class StateLoadingState extends GameState {
 		
 		tileMap = new TileMap(32);
 		tileMap.makeBeginning();
-		tileMap.loadMap(6);
+		tileMap.loadMap(10);
 		tileMap.makeEnd();
 		//tileMap.loadTiles("/Tiles/OnlyOne.png");
 		//tileMap.makeMap("/Pieces/some.txt");
@@ -42,6 +42,9 @@ public class StateLoadingState extends GameState {
 	public void handleInput() {
 		
 		
+	}
+	public int lengthOfMap(){
+		return 0;
 	}
 }
 

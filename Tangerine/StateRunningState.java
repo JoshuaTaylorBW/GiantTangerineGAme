@@ -13,7 +13,7 @@ public class StateRunningState extends GameState {
 	private int lastPosition = 0;
 	private int amountOfEnemies;
 
-	private int MAP_SPEED = 8;
+	private int MAP_SPEED = 10;
 	private TileMap tileMap;
 	private TileBackground bg;
 	private int mapX = 0, mapY = 0;
@@ -162,6 +162,7 @@ public class StateRunningState extends GameState {
 		}
 		if(lose){
 			gsm.setState(GameStateManager.LOADINGSTATE);
+			gsm.setCurrentLevel(1);
 		}
 		
 		for(int i = 0; i < enemies.size(); i++){
@@ -188,11 +189,11 @@ public class StateRunningState extends GameState {
 	
 	public void draw(Graphics2D g) {
 		bg.draw(g);
-		tileMap.draw(g);
-		tangerine.draw(g);
 		for(int i = 0; i < enemies.size(); i++){
 			enemies.get(i).draw(g);
 		}
+		tileMap.draw(g);
+		tangerine.draw(g);
 		fast.draw(g);
 		
 		
@@ -206,6 +207,7 @@ public class StateRunningState extends GameState {
 			if(!win){
 			started++;
 			}else if(win){
+				gsm.nextLevel();
 				gsm.setState(GameStateManager.LOADINGSTATE);
 			}
 		}
@@ -235,7 +237,6 @@ public class StateRunningState extends GameState {
 	public void setScore(int s){
 		score = s;
 	}
-	
 }
 
 
