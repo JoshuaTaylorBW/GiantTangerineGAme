@@ -107,8 +107,6 @@ public class TileMap {
 				numCols = numCols + Integer.parseInt(br.readLine());
 				numRows = Integer.parseInt(br.readLine());
 				if(i == parts - 1){
-					bw.write(numCols + "\r\n");
-					bw.write(numRows + "\r\n");
 				}
 				for(int j = 0; j < numRows; j++){
 					tempLine = br.readLine();
@@ -118,7 +116,9 @@ public class TileMap {
 						mapLines[j] += tempLine;
 					}
 				if(i == parts){
-				
+					numCols = mapLines[0].length() / 2;
+					bw.write(numCols + "\r\n");
+					bw.write(numRows + "\r\n");
 				bw.write(mapLines[j] + "\r\n");
 				}
 				//System.out.println(mapLines[j]);
@@ -172,7 +172,7 @@ public class TileMap {
 			
 			InputStream in = getClass().getResourceAsStream("/Pieces/end.txt");
 			br = new BufferedReader(new InputStreamReader(in));
-			numCols = numCols + Integer.parseInt(br.readLine()) - 35;
+			numCols = numCols + Integer.parseInt(br.readLine());
 			numRows = Integer.parseInt(br.readLine());
 			
 			for(int i = 0; i < numRows; i++){
@@ -238,7 +238,6 @@ public void makeMap(String s) {
 				}
 			}
 			everything = sb.toString();
-			System.out.println(everything);
 			br.close();
 		}
 		catch(Exception e) {
@@ -247,6 +246,48 @@ public void makeMap(String s) {
 		
 	}
 	
+public int countWords(String s){
+
+    int wordCount = 0;
+
+    boolean word = false;
+    int endOfLine = s.length() - 1;
+
+    for (int i = 0; i < s.length(); i++) {
+        // if the char is a letter, word = true.
+        if (Character.isLetter(s.charAt(i)) && i != endOfLine) {
+            word = true;
+            // if char isn't a letter and there have been letters before,
+            // counter goes up.
+        } else if (!Character.isLetter(s.charAt(i)) && word) {
+            wordCount++;
+            word = false;
+            // last word of String; if it doesn't end with a non letter, it
+            // wouldn't count without this.
+        } else if (Character.isLetter(s.charAt(i)) && i == endOfLine) {
+            wordCount++;
+        }
+    }
+    return wordCount;
+}
+
+	public void fixColumns(){
+		try{
+		BufferedReader br = new BufferedReader(
+			new FileReader("some.txt"));
+		StringBuilder sb = new StringBuilder();
+		
+		String[] theMap = new String[numRows];
+		for(int i = 0; i < numRows; i++){
+			theMap[i] = br.readLine();		
+		}
+		numCols = countWords(theMap[3]);
+		System.out.println("LOOK HERE " + numCols);
+		}catch(Exception e){
+			e.printStackTrace();	
+		}
+	}
+
 	public int getTileSize() { return tileSize; }
 	public double getx() { return x; }
 	public double gety() { return y; }
@@ -279,12 +320,20 @@ public void makeMap(String s) {
 	}
 	
 	private void fixBounds() {
-		if(x < xmin) x = xmin;
+		if(x < xmin + 95) x = xmin + 95;
 		if(y < ymin) y = ymin;
 		if(x > xmax) x = xmax;
 		if(y > ymax) y = ymax;
 	}
 	
+	public boolean atEnd(){
+		if(x > xmax + 50){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	public void draw(Graphics2D g) {
 		
 		for(

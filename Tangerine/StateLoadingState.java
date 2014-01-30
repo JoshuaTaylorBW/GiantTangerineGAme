@@ -17,11 +17,7 @@ public class StateLoadingState extends GameState {
 	public void init(){
 		
 		System.out.println(new File(".").getAbsolutePath());
-		
-		tileMap = new TileMap(32);
-		tileMap.makeBeginning();
-		tileMap.loadMap(lengthOfMap());
-		tileMap.makeEnd();
+		buildMap1();
 		//tileMap.loadTiles("/Tiles/OnlyOne.png");
 		//tileMap.makeMap("/Pieces/some.txt");
 		///tileMap.setPosition(0, 0);
@@ -30,7 +26,27 @@ public class StateLoadingState extends GameState {
 		
 	}
 
-	
+	public void buildMap1(){
+		try{ 	
+		tileMap = new TileMap(32);
+		tileMap.makeBeginning();
+		tileMap.loadMap(lengthOfMap());
+		tileMap.makeEnd();
+		tileMap.fixColumns();
+		}catch(ArrayIndexOutOfBoundsException e){
+		buildMap2();
+		}
+	}	
+	public void buildMap2(){
+		try{ 	
+		tileMap = new TileMap(32);
+		tileMap.makeBeginning();
+		tileMap.loadMap(lengthOfMap());
+		tileMap.makeEnd();
+		}catch(ArrayIndexOutOfBoundsException e){
+		buildMap1();
+		}
+	}
 	public void update() {
 		//tileMap.setPosition(0, 0);
 	}
@@ -48,9 +64,9 @@ public class StateLoadingState extends GameState {
 	public int lengthOfMap(){
 		int length = 0;
 		if(gsm.getCurrentLevel() == 1){
-			length = 8;
+			length = 5;
 		}else if(gsm.getCurrentLevel() >= 2){
-			length = 32;
+			length = 6;
 		}
 		return length;
 	}

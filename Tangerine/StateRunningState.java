@@ -35,16 +35,6 @@ public class StateRunningState extends GameState {
 		init();
 	}
 
-	public void setSpeed(){
-		if(gsm.getCurrentLevel() > 0 && gsm.getCurrentLevel() < 3){
-		MAP_SPEED = 6;
-		}else if(gsm.getCurrentLevel() > 2 && gsm.getCurrentLevel() < 5){
-		MAP_SPEED = 8;
-		}else{
-		MAP_SPEED = 10;
-		} 
-	}
-
 	public void init(){
 		
 		System.out.println("welcome to level " + gsm.getCurrentLevel());
@@ -52,10 +42,10 @@ public class StateRunningState extends GameState {
 		bg = new TileBackground("/Backgrounds/Forest.png", .8);
 		
 		setSpeed();
+		setSpacing();
 		tileMap = new TileMap(32);
 		tileMap.loadTiles("/Tiles/TiledOnlyOne.png");
 		tileMap.makeMap("/some.txt");
-		
 		tileMap.setPosition(mapX, 0);
 		tileMap.setTween(1);
 		
@@ -163,15 +153,19 @@ public class StateRunningState extends GameState {
 		fast.checkBananas(bananas);
 		tangerine.update();
 		
-		if(fast.getx() > tileMap.getWidth() - 90){
-			System.out.println("you win");
+		if(fast.getx() > tileMap.getWidth() - 80){
 			win = true;
 			fast.setWon(true);
 			tangerine.setGo(false);
+				gsm.nextLevel();
+				gsm.setState(GameStateManager.LOADINGSTATE);
 			started--;
 		}
-		if(fast.getXScreen() < -23 || fast.fellDead()){
+		if(fast.getXScreen() < -23) || fast.fellDead(){//
 			lose = true;
+		}
+		if(gsm.getCurrentLevel() > 1 && fast.isIdle()){
+			started = 1;
 		}
 		if(lose){
 			gsm.setCurrentLevel(1);
@@ -187,7 +181,6 @@ public class StateRunningState extends GameState {
 			}
 		}
 
-		
 		tileMap.setPosition( 
 				mapX,
 				0);
@@ -249,6 +242,46 @@ public class StateRunningState extends GameState {
 	}
 	public void setScore(int s){
 		score = s;
+	}
+
+	public void setSpeed(){
+		switch(gsm.getCurrentLevel()){
+			case 1:
+				MAP_SPEED = 6;
+				break;
+			case 2:
+				MAP_SPEED = 6;
+				break;
+			case 3:
+				MAP_SPEED = 5;
+				break;
+			case 4:
+				MAP_SPEED = 8;
+				break;
+			default:
+				MAP_SPEED = 10;
+				break;
+		}
+	}
+	public void setSpacing(){
+		switch(gsm.getCurrentLevel()){
+			case 1:
+				SPACING_MINIMUM = 1200;
+				SPACING_MAXIMUM = 1600;		
+				break;
+			case 2:
+				SPACING_MINIMUM = 600;
+				SPACING_MAXIMUM = 1000;		
+				break;
+			case 3:
+				SPACING_MINIMUM = 300;
+				SPACING_MAXIMUM = 800;		
+				break;
+			default:
+				SPACING_MINIMUM = 1200;
+				SPACING_MAXIMUM = 1600;		
+				break;
+		}
 	}
 }
 

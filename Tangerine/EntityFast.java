@@ -177,7 +177,13 @@ public class EntityFast extends EntityMapObject{
 		 maxHealth = i;
 		 return maxHealth;
 	}
-
+	public boolean isIdle(){
+		if(currentAction == IDLE){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	public void setWon(boolean w){
 		won = w;	 	
 		if(w){
@@ -358,6 +364,7 @@ if(!jumping && !falling){
 				animation.setDelay(40);
 				width = 46;
 				cwidth = 46;
+				cheight = 128;
 			}
 		}else if((right || left) && !flying && !sliding){
 			if(currentAction != RUNNING){
@@ -373,6 +380,7 @@ if(!jumping && !falling){
 				animation.setDelay(40);
 				width = 46;
 				cwidth = 46;
+				cheight = 128;
 			}
 		}else if(flying){
 			if(currentAction != FLYING){
@@ -383,6 +391,7 @@ if(!jumping && !falling){
 				animation.setDelay(40);
 				width = 115;
 				cwidth = 115;
+				cheight = 100;
 			}
 		}else if(sliding){
 			if(currentAction != SLIDING){
@@ -391,6 +400,7 @@ if(!jumping && !falling){
 				animation.setDelay(40);
 				width = 85;
 				cwidth = 85;
+				cheight = 128;
 			}
 		}else if(won){
 			if(currentAction != WINNING){
@@ -399,6 +409,7 @@ if(!jumping && !falling){
 				animation.setDelay(400);
 				width = 61;
 				cwidth = 61;
+				cheight = 128;
 			}
 		}else{
 			if(currentAction != IDLE){
@@ -407,6 +418,7 @@ if(!jumping && !falling){
 				animation.setDelay(400);
 				width = 35;
 				cwidth = 35;
+				cheight = 128;
 			}
 		}
 		
