@@ -6,6 +6,8 @@ public class GameStateManager {
 	private GameState[] gameStates;
 	private int currentState;
 	
+	public int score = 0;
+
 	public int currentLevel = 1;
 	
 	public static final int NUMGAMESTATES = 20;
@@ -45,6 +47,17 @@ public class GameStateManager {
 		currentState = state;
 		loadState(currentState);
 	}
+
+	public int getScore(){
+		return score;
+	}
+	public void addScore(int s){
+		score += s;
+	}
+	public void setScore(int s){
+		score = s;
+	}
+
 	public void update(){
 		try{
 		gameStates[currentState].update();

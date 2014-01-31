@@ -18,7 +18,6 @@ public class StateRunningState extends GameState {
 	private TileBackground bg;
 	private int mapX = 0, mapY = 0;
 	private EntityFast fast;
-	public int score = 0;
 	
 	public boolean lose = false;
 	public boolean win = false;
@@ -161,7 +160,7 @@ public class StateRunningState extends GameState {
 				gsm.setState(GameStateManager.LOADINGSTATE);
 			started--;
 		}
-		if(fast.getXScreen() < -23) || fast.fellDead(){//
+		if(fast.getXScreen() < -23 || fast.fellDead()){//
 			lose = true;
 		}
 		if(gsm.getCurrentLevel() > 1 && fast.isIdle()){
@@ -170,6 +169,7 @@ public class StateRunningState extends GameState {
 		if(lose){
 			gsm.setCurrentLevel(1);
 			gsm.setState(GameStateManager.LOADINGSTATE);
+			gsm.setScore(0);
 		}
 		
 		for(int i = 0; i < enemies.size(); i++){
@@ -189,7 +189,7 @@ public class StateRunningState extends GameState {
 			mapX -= MAP_SPEED;
 			tangerine.setGo(true);
 			fast.setRight(true);
-			score += 1;
+			gsm.addScore(1);
 		}
 	}
 	
@@ -204,7 +204,7 @@ public class StateRunningState extends GameState {
 		
 		
 		g.setColor(Color.yellow);
-		g.drawString("Score: " + score, 100, 100);
+		g.drawString("Score: " + gsm.getScore(), 100, 100);
 		
 	}
 
@@ -234,15 +234,6 @@ public class StateRunningState extends GameState {
 	
 	//} if(!Keys.isPressed(Keys.DOWN) && !Keys.isPressed(Keys.UP)){ switched = 0; }
 	
-	public int getScore(){
-		return score;
-	}
-	public void addScore(int s){
-		score += s;
-	}
-	public void setScore(int s){
-		score = s;
-	}
 
 	public void setSpeed(){
 		switch(gsm.getCurrentLevel()){
