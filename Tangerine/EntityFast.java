@@ -249,11 +249,16 @@ public class EntityFast extends EntityMapObject{
 		}
 		
 		if(goDown){
-			dy = 10;
-			flying = false;
-			sliding = false;
-			jumping = false;
-
+			calculateCorners(x, ydest);
+			if(!bottomLeft && !bottomRight) {
+				dy = 10;
+				flying = false;
+		       	       sliding = false;
+			       jumping = false;
+			}else{
+			dy = 0;
+			ytemp = (currRow) * tileSize - tileSize;
+			}
 		}	
 if(falling) {
 			if(!goDown){

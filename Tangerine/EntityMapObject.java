@@ -140,7 +140,7 @@ public abstract class EntityMapObject {
 			if(bottomLeft || bottomRight) {
 				dy = 0;
 				falling = false;
-				ytemp = (currRow) * tileSize;
+				ytemp = (currRow) * tileSize + tileSize;
 			}
 			else {
 				ytemp += dy;
