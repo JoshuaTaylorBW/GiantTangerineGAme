@@ -28,6 +28,7 @@ public class StateRunningState extends GameState {
 	private ArrayList<EntityEnemy> enemies;
 	private ArrayList<EntityBanana> bananas;
 	private ArrayList<EntityCherry> cherries;
+	private ArrayList<EntityCoin> coins;
 
 	public StateRunningState(GameStateManager gsm){
 		this.gsm = gsm;
@@ -55,6 +56,7 @@ public class StateRunningState extends GameState {
 		tangerine.setPosition(59, 250);
 
 		populateEnemies();
+		populateCoins();
 	}
 
 	public void populateEnemies(){
@@ -75,6 +77,15 @@ public class StateRunningState extends GameState {
 		}	
 	}
 	
+	public void populateCoins(){
+		coins = new ArrayList<EntityCoin>();
+		EntityCoin c;
+		Point CoinPoint = new Point(800,520);
+		c = new EntityCoin(tileMap, gsm);
+		c.setPosition(CoinPoint.x, CoinPoint.y);
+		coins.add(c);
+	}
+
 	public void makeBanana(){
 
 		int x = makeXPos();
@@ -180,6 +191,10 @@ public class StateRunningState extends GameState {
 				i--;
 			}
 		}
+		for(int i = 0; i < coins.size(); i++){
+			EntityCoin c = coins.get(i);
+			c.update();
+		}
 
 		tileMap.setPosition( 
 				mapX,
@@ -197,6 +212,9 @@ public class StateRunningState extends GameState {
 		bg.draw(g);
 		for(int i = 0; i < enemies.size(); i++){
 			enemies.get(i).draw(g);
+		}
+		for(int i = 0; i < coins.size(); i++){
+			coins.get(i).draw(g);	
 		}
 		tileMap.draw(g);
 		tangerine.draw(g);
